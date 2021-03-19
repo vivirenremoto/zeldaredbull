@@ -543,6 +543,9 @@
         function enemyWalking() {
 
 
+            if (game_finish) return;
+
+
             clearInterval(enemy_walking);
 
             enemy_walking = setInterval(function () {
