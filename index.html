@@ -111,9 +111,41 @@
 
         #enemy {
             background-repeat: no-repeat;
+            image-rendering: pixelated;
 
         }
 
+        #player {
+
+            image-rendering: pixelated;
+        }
+
+        #item {
+
+            image-rendering: pixelated;
+        }
+
+
+        /*firefox hack*/
+
+        @-moz-document url-prefix() {
+
+            #enemy {
+                image-rendering: crisp-edges;
+
+            }
+
+            #player {
+
+                image-rendering: crisp-edges;
+            }
+
+            #item {
+
+                image-rendering: crisp-edges;
+            }
+
+        }
 
         @keyframes shake {
             0% {
