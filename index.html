@@ -725,8 +725,11 @@
                     $('#player').removeClass('player_walking').addClass('player_drinking');
 
                     setTimeout(function () {
-                        $('#player').removeClass('player_drinking');
+                        if (current_items != max_items) {
+                            $('#player').removeClass('player_drinking');
+                        }
                     }, 500);
+
 
 
 
@@ -860,14 +863,22 @@
                 'height': $('#final_img').css('height')
             }, 500, function () {
 
-                $('#player').hide();
-                $('#final_img').css('opacity', 1);
+
 
 
                 setTimeout(function () {
 
 
                     setTimeout(function () {
+
+                        $('#player').hide();
+                        $('#final_img').css('opacity', 1);
+
+
+                        if ($('#player').hasClass('flip-horizontal')) {
+                            $('#final_img').addClass('flip-horizontal');
+                        }
+
                         $('#msg').html('RED BULL').css('color', 'red')
 
 
