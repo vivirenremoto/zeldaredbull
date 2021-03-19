@@ -720,6 +720,7 @@
                 if (!enemy_dead && numberBetween(current_x, lata_x, player_width / 2) && numberBetween(current_y, lata_y, player_height / 2)) {
 
 
+                    clearInterval(player_walking);
 
                     $('#player').removeClass('player_walking').addClass('player_drinking');
 
