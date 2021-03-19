@@ -33,7 +33,7 @@
     <link rel="prefetch" href="static/boom.png" />
     <link rel="prefetch" href="static/player.png" />
     <link rel="prefetch" href="static/player_walking.gif" />
-    <link rel="prefetch" href="static/won.gif" />
+    <link rel="prefetch" href="static/won.png" />
 
 
     <meta property="og:image" content="https://vivirenremoto.github.io/zeldaredbull/static/social.png">
@@ -821,7 +821,9 @@
 
             $('#player').animate({
                 'left': $('#final_img').offset().left,
-                'top': $('#final_img').offset().top
+                'top': $('#final_img').offset().top,
+                'width': $('#final_img').css('width'),
+                'height': $('#final_img').css('height')
             }, 500, function () {
 
                 $('#player').hide();
