@@ -21,6 +21,7 @@
     <link rel="prefetch" href="static/music.mp3" />
     <link rel="prefetch" href="static/item.mp3" />
     <link rel="prefetch" href="static/fail.mp3" />
+    <link rel="prefetch" href="static/bg.png" />
     <link rel="prefetch" href="static/enemy1.png" />
     <link rel="prefetch" href="static/enemy2.png" />
     <link rel="prefetch" href="static/enemy3.png" />
@@ -61,7 +62,14 @@
             /*IE*/
         }
 
+        html,
         body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: url('static/bg.png');
             touch-action: pan-x pan-y;
             overflow: hidden;
         }
