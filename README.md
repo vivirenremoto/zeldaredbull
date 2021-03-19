@@ -4,4 +4,4 @@
 
 [Autor](https://twitter.com/vivirenremoto)
 
-![Alva Majo VS Haters](https://vivirenremoto.github.io/zeldaredbull/static/social.png?1)
+![The Legend Of Red Bull by @vivirenremoto](https://vivirenremoto.github.io/zeldaredbull/static/social.png?2)
