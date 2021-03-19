@@ -65,7 +65,7 @@
 
 
         .button {
-            display: block;
+            display: none;
             width: 250px;
             margin: auto;
             text-align: center;
@@ -78,7 +78,7 @@
         h2 span {
             font-size: 45px;
             line-height: 40px;
-            color: blue;
+            color: black;
             margin-bottom: 10px;
         }
 
@@ -224,16 +224,19 @@
     <a href="https://twitter.com/vivirenremoto" target="_blank" style="z-index:10;position:fixed;right:10px;top:0;">by
         vivirenremoto</a>
 
+
+    <div id="player" class="player" style="z-index:2;position:fixed;">
+    </div>
+
     <div id="game">
 
         <div id="canvas" style="z-index:9;position:fixed;left:0;top:0;width:100%;height:100%;"></div>
 
 
         <div style="position:fixed;left:0;bottom:0;width:100%;text-align:center;z-index:1;padding:10px;">
-            CONSIGUE <span id="count">5</span> LATAS</div>
+            CONSIGUE <span id="count" style="color:red">5</span> LATAS</div>
 
-        <div id="player" class="player" style="z-index:2;position:fixed;">
-        </div>
+
 
         <div id="item" style="background: url('static/item.png');z-index:1;width:46px;height:125px;position:fixed;">
         </div>
@@ -243,9 +246,9 @@
     </div>
 
     <div id="result" style="text-align:center;display:none;position:fixed;left:0;top:0;width:100%;height:100%;">
-        <h2>QUE TENGAS UN BUEN <span id="msg"></span></h2>
+        <h2>QUE TENGAS UN BUEN <span id="msg" style="color:blue"></span></h2>
 
-        <img src="static/won.png">
+        <img src="static/won.png" id="final_img" style="opacity:0;">
 
 
         <a href="https://twitter.com/vivirenremoto/status/1371856196920078342" target="_blank" class="button">VER MI
@@ -280,8 +283,8 @@
 
 
     <script>
-
-        var max_items = 3;
+        var game_finish = false;
+        var max_items = 5;
         var current_items = 0;
 
         var screen_width = $(document).width();
@@ -298,9 +301,7 @@
 
         var enemy_current_x;
         var enemy_current_y;
-        //var enemy_final_x;
-        //var enemy_final_y;
-        var enemy_walking_speed = 1.2;
+        var enemy_walking_speed = 1.4;
         var enemy_walking = false;
         var enemy_dead = false;
 
@@ -309,7 +310,7 @@
         var player_width = parseInt($('#player').css('width'));
         var player_height = parseInt($('#player').css('height'));
         var player_walking = false;
-        var walking_speed = 1.5;
+        var walking_speed = 1.8;
         var diff = 50;
         var is_mobile = screen_width < 500;
 
@@ -410,14 +411,7 @@
             }
         }
 
-        /*
-        function screenRandomPos() {
-            var pos_x = randomNumber(0, screen_width - player_width);
-            var pos_y = randomNumber(0, screen_height - player_height);
 
-            return { x: pos_x, y: pos_y };
-        }
-        */
 
         function numberBetween(value1, value2, diff) {
             return (value1 <= value2 + diff) && (value1 >= value2 - diff);
@@ -450,7 +444,8 @@
 
 
 
-                if (current_items == max_items) {
+                if (!game_finish && current_items == max_items) {
+
 
                     endGame();
                 }
@@ -499,9 +494,6 @@
                     enemy_dead = false;
 
 
-                    //randomPos('#item');
-                    //$('#item').show();
-
 
 
                     enemyWalking();
@@ -529,8 +521,6 @@
 
 
 
-            //var pos = screenRandomPos();
-            //$('#item').css('left', pos.x).css('top', pos.y);
         }
 
 
@@ -560,15 +550,15 @@
 
                 if ($('.dead').length == 0) {
 
-                    enemy_final_x = parseInt($('#player').css('left'));
-                    enemy_final_y = parseInt($('#player').css('top'));
+                    enemy_final_x = final_x;
+                    enemy_final_y = final_y;
 
 
                     enemy_current_x = parseInt($('#enemy').css('left'));
                     enemy_current_y = parseInt($('#enemy').css('top'));
-                    if (enemy_current_x > enemy_final_x) {
+                    if (enemy_current_x > current_x) {
                         $('#enemy').removeClass('flip-horizontal');
-                    } else if (enemy_current_x < enemy_final_x) {
+                    } else if (enemy_current_x < current_x) {
                         $('#enemy').addClass('flip-horizontal');
                     }
 
@@ -576,22 +566,29 @@
 
 
 
+                    if (!enemy_dead && numberBetween(current_x, enemy_current_x, player_width / 3) && numberBetween(current_y, enemy_current_y, player_height / 3)) {
+
+
+                        enemy_dead = true;
 
 
 
+                        sound_fail.play();
+
+                        killEnemy(false);
 
 
-                    //if (enemy_current_x == enemy_final_x && enemy_current_y == enemy_final_y) {
-                    //endWalking();
+                    }
 
 
-                    //} else {
+
                     var enemy_next_x = enemy_current_x;
                     var enemy_next_y = enemy_current_y;
 
                     if (enemy_current_x < enemy_final_x) {
                         enemy_next_x += enemy_walking_speed;
-                    } else if (current_x > enemy_final_x) {
+
+                    } else if (enemy_current_x > enemy_final_x) {
                         enemy_next_x -= enemy_walking_speed;
                     }
 
@@ -605,7 +602,8 @@
                         'left': enemy_next_x + 'px',
                         'top': enemy_next_y + 'px',
                     });
-                    //}
+
+
 
                 }
 
@@ -685,21 +683,7 @@
 
 
 
-                var enemy_x = parseInt($('#enemy').css('left'));
-                var enemy_y = parseInt($('#enemy').css('top'));
-                if (!enemy_dead && numberBetween(current_x, enemy_x, player_width / 2) && numberBetween(current_y, enemy_y, player_height / 2)) {
 
-
-                    enemy_dead = true;
-
-
-
-                    sound_fail.play();
-
-                    killEnemy(false);
-
-
-                }
 
 
 
@@ -770,12 +754,14 @@
 
 
         function endGame() {
+
+            game_finish = true;
+
             clearInterval(enemy_walking);
             clearInterval(player_walking);
 
             $('#game').hide();
             $('#result').show();
-
 
             var dias = [
                 'domingo',
@@ -794,22 +780,50 @@
 
             $('#msg').html(nombreDia);
 
-            setTimeout(function () {
-                $('#msg').html('RED BULL').css('color', 'red')
-            }, 3000);
+
+
+
+            $('#player').animate({
+                'left': $('#final_img').offset().left,
+                'top': $('#final_img').offset().top
+            }, 500, function () {
+
+                $('#player').hide();
+                $('#final_img').css('opacity', 1);
+
+
+                setTimeout(function () {
+
+
+                    setTimeout(function () {
+                        $('#msg').html('RED BULL').css('color', 'red')
+
+
+
+                        setTimeout(function () {
+                            $('.button').css('display', 'block');
+                        }, 1000);
+
+                    }, 2000);
 
 
 
 
 
-            confetti.start();
+                    confetti.start();
 
-            setTimeout(function () {
-                confetti.stop();
-            }, 3000);
+                    setTimeout(function () {
+                        confetti.stop();
+                    }, 3000);
+
+
+                }, 500);
+
+            });
 
 
         }
+
 
     </script>
 
