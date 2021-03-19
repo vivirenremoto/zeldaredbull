@@ -4,4 +4,4 @@
 
 [Autor](https://twitter.com/vivirenremoto)
 
-![Alva Majo VS Haters](https://vivirenremoto.github.io/zeldaredbull/static/social.png)
+![Alva Majo VS Haters](https://vivirenremoto.github.io/zeldaredbull/static/social.png?1)
