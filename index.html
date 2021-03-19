@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The Legend Of Red Bull by @vivirenremoto</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js"></script>
+
+
+
+    <link rel="prefetch" href="static/music.mp3" />
+    <link rel="prefetch" href="static/item.mp3" />
+    <link rel="prefetch" href="static/fail.mp3" />
+    <link rel="prefetch" href="static/enemy1.png" />
+    <link rel="prefetch" href="static/enemy2.png" />
+    <link rel="prefetch" href="static/enemy3.png" />
+    <link rel="prefetch" href="static/enemy4.png" />
+    <link rel="prefetch" href="static/item.png" />
+    <link rel="prefetch" href="static/item1.png" />
+    <link rel="prefetch" href="static/item2.png" />
+    <link rel="prefetch" href="static/item3.png" />
+    <link rel="prefetch" href="static/item4.png" />
+    <link rel="prefetch" href="static/boom.png" />
+    <link rel="prefetch" href="static/player.png" />
+    <link rel="prefetch" href="static/player_walking.gif" />
+    <link rel="prefetch" href="static/won.gif" />
+
+
+    <meta property="og:image" content="https://vivirenremoto.github.io/zeldaredbull/static/social.png">
+    <meta property="og:image:secure_url" content="https://vivirenremoto.github.io/zeldaredbull/static/social.png">
+    <meta property="og:image:alt" content="The Legend Of Red Bull by @vivirenremoto">
+    <meta property="og:image:type" content="image/png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Legend Of Red Bull by @vivirenremoto">
+    <meta name="twitter:image" content="https://vivirenremoto.github.io/zeldaredbull/static/social.png">
+
+</head>
+
+<body>
+
+    <style>
+        .flip-horizontal {
+            -moz-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            transform: scaleX(-1);
+            -ms-filter: fliph;
+            /*IE*/
+            filter: fliph;
+            /*IE*/
+        }
+
+        body {
+            touch-action: pan-x pan-y;
+        }
+
+
+        .button {
+            display: block;
+            width: 250px;
+            margin: auto;
+            text-align: center;
+            padding: 8px 0;
+            border: 5px black solid;
+            margin-top: 15px;
+        }
+
+        h2,
+        h2 span {
+            font-size: 45px;
+            line-height: 40px;
+            color: blue;
+            margin-bottom: 10px;
+        }
+
+        * {
+            font-family: 'VT323', monospace;
+            text-transform: uppercase;
+            font-size: 30px;
+
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Old versions of Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently
+                            supported by Chrome, Edge, Opera and Firefox */
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+
+        #enemy {
+            background-repeat: no-repeat;
+
+        }
+
+
+        @keyframes shake {
+            0% {
+                transform: translate(20px, 20px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-20deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(20deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(20px, -20px) rotate(20deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-20deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-20deg);
+            }
+
+            80% {
+                transform: translate(-20px, -20px) rotate(20deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-20deg);
+            }
+        }
+
+        .boom {
+            background-image: url('static/boom.png') !important;
+            background-position: center center !important;
+            background-size: auto !important;
+            animation: shake 0.5s;
+        }
+
+        .prize {
+            background-position: center center !important;
+            background-size: auto !important;
+        }
+
+        .player {
+            background-image: url('static/player.png');
+        }
+
+        .player_walking {
+            background-image: url('static/player_walking.gif');
+        }
+
+
+
+        #player {
+            width: 170px;
+            height: 276px;
+            background-size: 100%;
+        }
+
+        #enemy {
+            width: 202px;
+            height: 267px;
+        }
+
+        @media screen and (max-width: 480px) {
+
+
+            #player {
+                width: 85px;
+                height: 138px;
+            }
+
+            #enemy {
+                width: 101px;
+                height: 134px;
+            }
+
+            .boom,
+            .prize {
+                background-size: 100% !important;
+            }
+
+            #result img {
+                width: 115px;
+            }
+
+
+
+        }
+    </style>
+
+
+    <a href="https://twitter.com/vivirenremoto" target="_blank" style="z-index:10;position:fixed;right:10px;top:0;">by
+        vivirenremoto</a>
+
+    <div id="game">
+
+        <div id="canvas" style="z-index:9;position:fixed;left:0;top:0;width:100%;height:100%;"></div>
+
+
+        <div style="position:fixed;left:0;bottom:0;width:100%;text-align:center;z-index:1;padding:10px;">
+            CONSIGUE <span id="count">5</span> LATAS</div>
+
+        <div id="player" class="player" style="z-index:2;position:fixed;">
+        </div>
+
+        <div id="item" style="background: url('static/item.png');z-index:1;width:46px;height:125px;position:fixed;">
+        </div>
+
+        <div id="enemy" style="background-size: 100% auto;z-index:1;position:fixed;"></div>
+
+    </div>
+
+    <div id="result" style="text-align:center;display:none;position:fixed;left:0;top:0;width:100%;height:100%;">
+        <h2>QUE TENGAS UN BUEN <span id="msg"></span></h2>
+
+        <img src="static/won.png">
+
+
+        <a href="https://twitter.com/vivirenremoto/status/1371856196920078342" target="_blank" class="button">VER MI
+            CV</a>
+
+        <a href="index.html" class="button">REPETIR</a>
+
+        <a href="javascript:share()" class="button">COMPARTIR</a>
+
+
+    </div>
+
+
+
+    <audio id="sound_music" loop>
+        <source src="static/music.mp3" type="audio/mp3">
+    </audio>
+
+
+    <audio id="sound_item">
+        <source src="static/item.mp3" type="audio/mp3">
+    </audio>
+
+
+    <audio id="sound_fail">
+        <source src="static/fail.mp3" type="audio/mp3">
+    </audio>
+
+
+
+
+
+
+    <script>
+
+        var max_items = 3;
+        var current_items = 0;
+
+        var screen_width = $(document).width();
+        var screen_height = $(document).height();
+
+        var screen_width_half = screen_width / 2;
+        var screen_height_half = screen_height / 2;
+
+        var current_x;
+        var current_y;
+        var final_x;
+        var final_y;
+
+
+        var enemy_current_x;
+        var enemy_current_y;
+        //var enemy_final_x;
+        //var enemy_final_y;
+        var enemy_walking_speed = 1.2;
+        var enemy_walking = false;
+        var enemy_dead = false;
+
+
+
+        var player_width = parseInt($('#player').css('width'));
+        var player_height = parseInt($('#player').css('height'));
+        var player_walking = false;
+        var walking_speed = 1.5;
+        var diff = 50;
+        var is_mobile = screen_width < 500;
+
+
+
+        var music_playing = false;
+
+        var sound_music = document.getElementById('sound_music');
+        sound_music.volume = 0.5;
+
+        var sound_item = document.getElementById('sound_item');
+        var sound_fail = document.getElementById('sound_fail');
+
+
+        $('#count').html(max_items);
+
+        // delimitar zonas para que los edificios no se sobrepongan
+        if (is_mobile) {
+            var zones = [
+                {
+                    start_x: 60,
+                    end_x: screen_width,
+                    start_y: 0,
+                    end_y: (screen_height / 4) * 1
+                },
+
+                {
+                    start_x: 0,
+                    end_x: screen_width,
+                    start_y: (screen_height / 4) * 1,
+                    end_y: (screen_height / 4) * 2
+                },
+
+                {
+                    start_x: 0,
+                    end_x: screen_width,
+                    start_y: (screen_height / 4) * 2,
+                    end_y: (screen_height / 4) * 3
+                },
+
+                {
+                    start_x: 0,
+                    end_x: screen_width,
+                    start_y: (screen_height / 4) * 3,
+                    end_y: ((screen_height / 4) * 4)
+                },
+
+            ];
+
+
+        } else {
+            var zones = [
+                {
+                    start_x: 0,
+                    end_x: screen_width / 2,
+                    start_y: 0,
+                    end_y: screen_height / 2
+                },
+
+                {
+                    start_x: screen_width / 2,
+                    end_x: screen_width,
+                    start_y: 0,
+                    end_y: screen_height / 2
+                },
+
+                {
+                    start_x: 0,
+                    end_x: screen_width / 2,
+                    start_y: screen_height / 2,
+                    end_y: screen_height
+                },
+
+                {
+                    start_x: screen_width / 2,
+                    end_x: screen_width,
+                    start_y: screen_height / 2,
+                    end_y: screen_height
+                },
+
+            ];
+
+
+        }
+
+
+        function randomNumber(min, max) {
+            if (min > max) {
+                let temp = max;
+                max = min;
+                min = temp;
+            }
+
+            if (min <= 0) {
+                return Math.floor(Math.random() * (max + Math.abs(min) + 1)) + min;
+            } else {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+        }
+
+        /*
+        function screenRandomPos() {
+            var pos_x = randomNumber(0, screen_width - player_width);
+            var pos_y = randomNumber(0, screen_height - player_height);
+
+            return { x: pos_x, y: pos_y };
+        }
+        */
+
+        function numberBetween(value1, value2, diff) {
+            return (value1 <= value2 + diff) && (value1 >= value2 - diff);
+        }
+
+        function randomEnemy() {
+            var rand = randomNumber(1, 4);
+            $('#enemy').css('background-image', "url('static/enemy" + rand + ".png')");
+        }
+
+        function randomItem() {
+            var rand = randomNumber(1, 4);
+            $('#enemy').css('background-image', "url('static/item" + rand + ".png')");
+        }
+
+        function killEnemy(show_prize) {
+
+
+
+            $('#item').hide();
+
+
+            clearInterval(enemy_walking);
+
+
+
+            $('#enemy').addClass('boom').addClass('dead');
+
+            setTimeout(function () {
+
+
+
+                if (current_items == max_items) {
+
+                    endGame();
+                }
+
+
+
+                if (show_prize) {
+
+                    $('#enemy').removeClass('boom').addClass('prize');
+
+                    randomItem();
+                } else {
+
+
+
+                    setTimeout(function () {
+
+                        $('#enemy').hide();
+                    }, 500);
+                }
+
+
+
+                setTimeout(function () {
+
+
+
+
+
+                    randomEnemy();
+
+
+                    var rand = randomNumber(0, 3);
+                    var zone = zones[rand];
+                    $('#enemy').css('left', zone.start_x).css('top', zone.start_y).removeClass('boom').removeClass('prize').removeClass('dead').show();
+
+
+
+
+                    var rand = randomNumber(0, 3);
+                    var zone = zones[rand];
+                    $('#item').css('left', zone.start_x + 100).css('top', zone.start_y + 100).show();
+
+
+
+                    enemy_dead = false;
+
+
+                    //randomPos('#item');
+                    //$('#item').show();
+
+
+
+                    enemyWalking();
+
+
+                }, 1000);
+
+
+
+            }, 500);
+
+        }
+
+        function randomPos(id) {
+
+
+            var rand = randomNumber(0, 3);
+            var zone = zones[rand];
+
+            var pos_x = randomNumber(zone.start_x, zone.end_x - 100);
+            var pos_y = randomNumber(zone.start_y, zone.end_y - 100);
+
+
+            $(id).css('left', pos_x).css('top', pos_y);
+
+
+
+            //var pos = screenRandomPos();
+            //$('#item').css('left', pos.x).css('top', pos.y);
+        }
+
+
+
+
+
+
+
+
+        randomPos('#item');
+        randomPos('#player');
+        randomEnemy();
+        randomPos('#enemy');
+
+        current_x = parseInt($('#player').css('left'));
+        current_y = parseInt($('#player').css('top'));
+
+
+
+        function enemyWalking() {
+
+
+            clearInterval(enemy_walking);
+
+            enemy_walking = setInterval(function () {
+
+
+                if ($('.dead').length == 0) {
+
+                    enemy_final_x = parseInt($('#player').css('left'));
+                    enemy_final_y = parseInt($('#player').css('top'));
+
+
+                    enemy_current_x = parseInt($('#enemy').css('left'));
+                    enemy_current_y = parseInt($('#enemy').css('top'));
+                    if (enemy_current_x > enemy_final_x) {
+                        $('#enemy').removeClass('flip-horizontal');
+                    } else if (enemy_current_x < enemy_final_x) {
+                        $('#enemy').addClass('flip-horizontal');
+                    }
+
+
+
+
+
+
+
+
+
+
+                    //if (enemy_current_x == enemy_final_x && enemy_current_y == enemy_final_y) {
+                    //endWalking();
+
+
+                    //} else {
+                    var enemy_next_x = enemy_current_x;
+                    var enemy_next_y = enemy_current_y;
+
+                    if (enemy_current_x < enemy_final_x) {
+                        enemy_next_x += enemy_walking_speed;
+                    } else if (current_x > enemy_final_x) {
+                        enemy_next_x -= enemy_walking_speed;
+                    }
+
+                    if (enemy_current_y < enemy_final_y) {
+                        enemy_next_y += enemy_walking_speed;
+                    } else if (enemy_current_y > enemy_final_y) {
+                        enemy_next_y -= enemy_walking_speed;
+                    }
+
+                    $('#enemy').css({
+                        'left': enemy_next_x + 'px',
+                        'top': enemy_next_y + 'px',
+                    });
+                    //}
+
+                }
+
+
+            }, 25);
+
+
+        }
+
+
+        $('#canvas').click(function (e) {
+
+            if (!music_playing) {
+                music_playing = true;
+                sound_music.play();
+            }
+
+
+
+            clearInterval(player_walking);
+
+
+            final_x = e.offsetX - parseInt(player_width / 2);
+            final_y = e.offsetY - parseInt(player_height / 2);
+
+
+            if (!enemy_walking) {
+                enemyWalking();
+            }
+
+
+
+            $('#player').addClass('player_walking');
+
+            player_walking = setInterval(function () {
+
+
+
+
+                current_x = parseInt($('#player').css('left'));
+                current_y = parseInt($('#player').css('top'));
+                if (current_x > final_x) {
+                    $('#player').addClass('flip-horizontal');
+                } else if (current_x < final_x) {
+                    $('#player').removeClass('flip-horizontal');
+                }
+
+
+
+
+                var lata_x = parseInt($('#item').css('left'));
+                var lata_y = parseInt($('#item').css('top'));
+                if (!enemy_dead && numberBetween(current_x, lata_x, player_width / 2) && numberBetween(current_y, lata_y, player_height / 2)) {
+
+
+
+                    current_items++;
+
+
+                    $('#count').html(max_items - current_items);
+
+
+                    enemy_dead = true;
+
+
+
+
+
+
+                    sound_item.play();
+
+                    killEnemy(true);
+
+
+                }
+
+
+
+
+                var enemy_x = parseInt($('#enemy').css('left'));
+                var enemy_y = parseInt($('#enemy').css('top'));
+                if (!enemy_dead && numberBetween(current_x, enemy_x, player_width / 2) && numberBetween(current_y, enemy_y, player_height / 2)) {
+
+
+                    enemy_dead = true;
+
+
+
+                    sound_fail.play();
+
+                    killEnemy(false);
+
+
+                }
+
+
+
+                if (current_x == final_x && current_y == final_y) {
+                    endWalking();
+
+
+                } else {
+                    var next_x = current_x;
+                    var next_y = current_y;
+
+                    if (current_x < final_x) {
+                        next_x += walking_speed;
+                    } else if (current_x > final_x) {
+                        next_x -= walking_speed;
+                    }
+
+                    if (current_y < final_y) {
+                        next_y += walking_speed;
+                    } else if (current_y > final_y) {
+                        next_y -= walking_speed;
+                    }
+
+                    $('#player').css({
+                        'left': next_x + 'px',
+                        'top': next_y + 'px',
+                    });
+                }
+
+
+
+
+            }, 1);
+
+        });
+
+
+        function endWalking() {
+
+
+
+            $('#player').removeClass('player_walking');
+
+            clearInterval(player_walking);
+
+
+        }
+
+
+
+        function share() {
+            var share_title = document.title;
+            var share_url = document.location.href;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: share_title,
+                    url: share_url
+                });
+
+            } else {
+                window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(share_title) + '&tw_p=tweetbutton&url=' + encodeURIComponent(share_url));
+            }
+
+
+        }
+
+
+
+        function endGame() {
+            clearInterval(enemy_walking);
+            clearInterval(player_walking);
+
+            $('#game').hide();
+            $('#result').show();
+
+
+            var dias = [
+                'domingo',
+                'lunes',
+                'martes',
+                'miércoles',
+                'jueves',
+                'viernes',
+                'sábado',
+            ];
+            var numeroDia = new Date().getDay();
+            var nombreDia = dias[numeroDia];
+
+
+
+
+            $('#msg').html(nombreDia);
+
+            setTimeout(function () {
+                $('#msg').html('RED BULL').css('color', 'red')
+            }, 3000);
+
+
+
+
+
+            confetti.start();
+
+            setTimeout(function () {
+                confetti.stop();
+            }, 3000);
+
+
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>
