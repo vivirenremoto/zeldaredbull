@@ -33,6 +33,7 @@
     <link rel="prefetch" href="static/boom.png" />
     <link rel="prefetch" href="static/player.png" />
     <link rel="prefetch" href="static/player_walking.gif" />
+    <link rel="prefetch" href="static/player_drinking.png" />
     <link rel="prefetch" href="static/won.png" />
 
 
@@ -222,6 +223,11 @@
         .player_walking {
             background-image: url('static/player_walking.gif');
         }
+
+        .player_drinking {
+            background-image: url('static/player_drinking.png');
+        }
+
 
 
 
@@ -703,6 +709,14 @@
                 var lata_x = parseInt($('#item').css('left'));
                 var lata_y = parseInt($('#item').css('top'));
                 if (!enemy_dead && numberBetween(current_x, lata_x, player_width / 2) && numberBetween(current_y, lata_y, player_height / 2)) {
+
+
+
+                    $('#player').removeClass('player_walking').addClass('player_drinking');
+
+                    setTimeout(function () {
+                        $('#player').removeClass('player_drinking');
+                    }, 500);
 
 
 
